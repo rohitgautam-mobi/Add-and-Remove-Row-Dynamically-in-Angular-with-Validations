@@ -1,0 +1,81 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Dynamic Add and Remove Rows</h4>
+                    <form [formGroup]="requestCreateForm" (ngSubmit)="submit()" class="row">
+                        <div class="col-lg-12">
+                            <hr>
+                            <!--  Just a Divider Line -->
+                        </div>
+                        <div class="col-lg-12" formArrayName="itemRows">
+                            <div class="row" *ngFor="let itemrow of itemRowsControls; let i=index" [formGroupName]="i">
+                                <label class="col-lg-1 col-form-label">Currency
+                                <span class="text-danger">*</span>
+                            </label>
+                                <div class="col-lg-2">
+                                    <select class="form-control" formControlName="currency" [ngClass]="{ 'is-invalid': submitted && itemrow.get( 'currency')?.errors}">
+                                        <option value="">Select</option>                                      
+                                        <option value="INR ">INR</option>
+                                        <option value="Doller ">DOLLER</option>
+                                    </select>
+
+                                    <div *ngIf="submitted && itemrow.get( 'currency')?.errors " class="invalid-feedback ">
+                                        <div *ngIf="submitted && itemrow.get( 'currency')?.errors?.required ">
+                                            Currency is required.
+                                        </div>
+                                    </div>
+                                </div>
+                                <label for="amt-input " class="col-lg-1 col-form-label ">Amount <span class="text-danger ">*</span>
+                  </label>
+                                <div class="col-md-2 pr-0 mb-3 ">
+                                    <input class="form-control" formControlName="amount" type="text " id="amt-input " [ngClass]="{ 'is-invalid': submitted && itemrow.get( 'amount')?.errors}" />
+                                    <div *ngIf="submitted && itemrow.get( 'amount')?.errors" class="invalid-feedback ">
+                                        <div *ngIf="submitted && itemrow.get( 'amount')?.errors?.required">
+                                            Amount is required.
+                                        </div>
+                                        <div *ngIf="submitted && itemrow.get('amount')?.hasError( 'maxlength') ">
+                                            Amount can not exceed 10 characters in length.
+                                        </div>
+                                        <div *ngIf="submitted && itemrow.get('amount')?.errors?.pattern">
+                                            Amount Number must be number
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 ">
+                                    <label class="col-form-label ">Currency Type<span class="text-danger ">*</span></label>
+                                </div>
+                                <div class="col-md-2 pr-0 mb-3 ">
+                                    <select class="form-control " formControlName="currencyType" [ngClass]="{ 'is-invalid': submitted && itemrow.get( 'currencyType')?.errors}">
+                                        <option value=" ">Select</option>
+                                        <option value="Fake ">Fake </option>
+                                        <option value="Original ">Original</option>
+                                        </select>
+                                    <div *ngIf="submitted && itemrow.get('currencyType')?.errors" class="invalid-feedback">
+                                        <div *ngIf="submitted && itemrow.get('currencyType')?.errors?.required">
+                                            Type is required.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 text-right">
+                                    <button type="button" (click)="addNewRow()" class="btn btn-primary mr-2"><i class="fa fa-plus-circle"
+                                        aria-hidden="true"></i></button>
+                                    <button type="button" (click)="deleteRow(i)" class="btn btn-outline-danger ml-2"><i class="fa fa-times" aria-hidden="true"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <hr>
+                        </div>
+                        <div class="col-lg-12 text-center mt-4">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- end col -->
+    </div>
+    <!-- end row -->
+</div>
